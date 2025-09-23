@@ -5,23 +5,28 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import projekt1.rasterizer.Raster;
+import projekt1.rasterizer.RasterBufferedImage;
+
 public class Panel extends JPanel {
-    private final BufferedImage raster;
+    private final BufferedImage image;
+    private final RasterBufferedImage raster;
 
     public Panel(int width, int height) {
         setPreferredSize(new Dimension(width, height));
 
-        raster = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        raster = new RasterBufferedImage(image);
     }
 
     @Override
     protected void paintComponent(java.awt.Graphics g) {
         super.paintComponent(g);
-        g.drawImage(raster, 0, 0, null);
+        g.drawImage(image, 0, 0, null);
     }
 
-    public BufferedImage getRaster(){
-        return raster;
-    }
+    public Raster getRaster(){ return raster; }
+    public BufferedImage getImage(){ return image; }
 }
+
     
