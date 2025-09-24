@@ -21,7 +21,7 @@ public class Frame extends JFrame {
     }
     
     private void setupFrame() {
-        setTitle("Projekt 1 - Interaktivní kreslení úseček");
+        setTitle("PROJEKT1");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
         setLayout(new BorderLayout());
@@ -33,7 +33,7 @@ public class Frame extends JFrame {
         
         // Status bar
 // V setupComponents() změň řádek se statusLabel na:
-statusLabel = new JLabel("Kreslení: Klikni a táhni myší | Mazání: Klávesa C | ");
+statusLabel = new JLabel("Kresleni: Klikni a tahni mysi | Mazani: Klavesa C | Tloustka usecky: Klavesa T | ");
         statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         statusLabel.setBackground(new Color(240, 240, 240));
         statusLabel.setOpaque(true);

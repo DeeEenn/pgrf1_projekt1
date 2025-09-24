@@ -1,5 +1,7 @@
 package projekt1.rasterizer;
 
+import java.awt.Color;
+
 import projekt1.model.Line;
 
 public class FilledLineRasterizer extends LineRasterizer {
@@ -10,6 +12,15 @@ public class FilledLineRasterizer extends LineRasterizer {
 
     @Override
     public void rasterize(Line line) {
+        int thickness = line.getThickness();
+        if (thickness <= 1){
+            rasterizeNormal(line);
+        } else {
+            rasterizeThick(line, thickness);
+        }
+    }
+
+    private void rasterizeNormal(Line line) {
         int x1 = line.getStart().getX();
         int y1 = line.getStart().getY();
         int x2 = line.getEnd().getX();
@@ -30,6 +41,41 @@ public class FilledLineRasterizer extends LineRasterizer {
 
         for (int i = 0; i <= steps; i++) {
             raster.setPixel(Math.round(x), Math.round(y), line.getColor());
+            x += xIncrement;
+            y += yIncrement;
+        }
+    }
+    private void drawThickPixel(int centerX, int centerY, int thickness, Color color){
+        int radius = thickness / 2;
+
+        for(int dx = -radius; dx <= radius; dx++){
+            for(int dy = -radius; dy <= radius; dy++){
+                raster.setPixel(centerX + dx, centerY + dy, color);
+            }
+        }
+    }
+
+    private void rasterizeThick(Line line, int thickness){
+        int x1 = line.getStart().getX();
+        int y1 = line.getStart().getY();
+        int x2 = line.getEnd().getX();
+        int y2 = line.getEnd().getY();
+
+        // Vypocitani rozdilu
+        int dx = x2 - x1;
+        int dy = y2 - y1;
+
+        int steps = Math.max(Math.abs(dx), Math.abs(dy));
+
+        // Vypocitani inkrementu pro kazdy krok
+        float xIncrement = (float) dx / steps;
+        float yIncrement = (float) dy / steps;
+
+        float x = x1;
+        float y = y1;
+
+        for (int i = 0; i <= steps; i++) {
+            drawThickPixel(Math.round(x), Math.round(y), thickness, line.getColor());
             x += xIncrement;
             y += yIncrement;
         }

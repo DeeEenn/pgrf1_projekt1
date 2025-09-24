@@ -22,6 +22,7 @@ public class Controller2D {
 
     private Point startPoint;
     private boolean isDrawing = false;
+    private int lineThickness = 1;
     
     private final List<Line> lines = new ArrayList<>();
 
@@ -51,7 +52,7 @@ public class Controller2D {
             public void mouseReleased(MouseEvent e) {
                 if (isDrawing && e.getButton() == MouseEvent.BUTTON1) {
                     Point endPoint = new Point(e.getX(), e.getY(), Color.WHITE);
-                    Line finalLine = new Line(startPoint, endPoint, Color.WHITE);
+                    Line finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
                     System.out.println("Druhy bod usecky je na: (" + e.getX() + ", " + e.getY() + ")");
                     System.out.println("Usecka byla nakreslena na pozici: " + startPoint.getX() + ", " + startPoint.getY() + " -> " + endPoint.getX() + ", " + endPoint.getY());
                     lines.add(finalLine);
@@ -75,7 +76,7 @@ public class Controller2D {
                     redrawAll();
                     
                     Point currentPoint = new Point(e.getX(), e.getY(), Color.WHITE);
-                    Line previewLine = new Line(startPoint, currentPoint, Color.WHITE);
+                    Line previewLine = new Line(startPoint, currentPoint, Color.WHITE, lineThickness);
                     lineRasterizer.rasterize(previewLine);
                     panel.repaint();
                 }
@@ -89,9 +90,11 @@ public class Controller2D {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_C) {
                     clearAll();
+                } else if (e.getKeyCode() == KeyEvent.VK_T) {
+                    lineThickness = (lineThickness == 1) ? 3 : 1;
                 }
             }
-            
+ 
             @Override public void keyReleased(KeyEvent e) {}
             @Override public void keyTyped(KeyEvent e) {}
         });
