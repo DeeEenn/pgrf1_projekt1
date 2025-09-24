@@ -113,6 +113,7 @@ public class Controller2D {
     private void clearAll() {
         lines.clear();  
         raster.clear(); 
+        System.out.println("Platno bylo vymazano.");
         panel.repaint();
     }
 }
