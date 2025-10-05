@@ -11,6 +11,7 @@ import java.util.List;
 
 import projekt1.model.Line;
 import projekt1.model.Point;
+import projekt1.model.Polygon;
 import projekt1.rasterizer.FilledLineRasterizer;
 import projekt1.rasterizer.Raster;
 import projekt1.view.Panel;
@@ -25,7 +26,9 @@ public class Controller2D {
     private int lineThickness = 1;
     private boolean interpolationMode = false;
     private boolean isVerticalHorizontalMode = false;
+    private boolean polygonMode = false;
 
+    private Polygon polygon = new Polygon();
     private final List<Line> lines = new ArrayList<>();
 
     public Controller2D(Panel panel) {
@@ -55,13 +58,18 @@ public class Controller2D {
                 if (isDrawing && e.getButton() == MouseEvent.BUTTON1) {
                     Point endPoint = getAlignedPoint(startPoint, e.getX(), e.getY());
 
-                    Line finalLine;
-                    if(interpolationMode){
-                        finalLine = new Line(startPoint, endPoint, Color.BLUE, Color.RED, lineThickness);
+                    if(polygonMode){
+                        polygon.addPoint(endPoint);
                     } else {
-                        finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
+                        Line finalLine;
+                        if(interpolationMode){
+                            finalLine = new Line(startPoint, endPoint, Color.RED, Color.BLUE, lineThickness);
+                        } else {
+                            finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
+                        }
+                        lines.add(finalLine);
                     }
-                    lines.add(finalLine);
+
                     redrawAll();
                     isDrawing = false;
                 }
@@ -104,10 +112,10 @@ public class Controller2D {
                     lineThickness = (lineThickness == 1) ? 3 : 1;
                 } else if (e.getKeyCode() == KeyEvent.VK_I) {
                     interpolationMode = !interpolationMode;
-                    System.out.println("Rezim interpolace barev je " + (interpolationMode ? "zapnuty." : "vypnuty."));
                 } else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
                     isVerticalHorizontalMode = !isVerticalHorizontalMode;
-                    System.out.println("Rezim zarovnani je " + (isVerticalHorizontalMode ? "zapnuty." : "vypnuty."));
+                } else if (e.getKeyCode() == KeyEvent.VK_P) {
+                    polygonMode = !polygonMode;
                 }
             }
  
@@ -140,12 +148,17 @@ public class Controller2D {
         for (Line line : lines) {
             lineRasterizer.rasterize(line);
         }
+
+        for (Line line : polygon.getLines()) {
+            lineRasterizer.rasterize(line);
+        }
         
         panel.repaint();
     }
     
     private void clearAll() {
         lines.clear();  
+        polygon.clear();
         raster.clear(); 
         System.out.println("Platno bylo vymazano.");
         panel.repaint();

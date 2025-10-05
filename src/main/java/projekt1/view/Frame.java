@@ -32,7 +32,7 @@ public class Frame extends JFrame {
         panel = new Panel(width, height);
         
         // Status bar
-        statusLabel = new JLabel("Kresleni: Klikni a tahni mysi | Mazani: Klavesa C | Tloustka usecky: Klavesa T | Interpolace barev: Klavesa I |" );
+        statusLabel = new JLabel("Kresleni: Klikni a tahni mysi | Mazani: Klavesa C | Tloustka usecky: Klavesa T | Interpolace barev: Klavesa I | Polygony: Klavesa P | ");
         statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         statusLabel.setBackground(new Color(240, 240, 240));
         statusLabel.setOpaque(true);
