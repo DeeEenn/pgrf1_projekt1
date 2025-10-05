@@ -32,8 +32,7 @@ public class Frame extends JFrame {
         panel = new Panel(width, height);
         
         // Status bar
-// V setupComponents() změň řádek se statusLabel na:
-statusLabel = new JLabel("Kresleni: Klikni a tahni mysi | Mazani: Klavesa C | Tloustka usecky: Klavesa T | ");
+        statusLabel = new JLabel("Kresleni: Klikni a tahni mysi | Mazani: Klavesa C | Tloustka usecky: Klavesa T | Interpolace barev: Klavesa I |" );
         statusLabel.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
         statusLabel.setBackground(new Color(240, 240, 240));
         statusLabel.setOpaque(true);

@@ -39,8 +39,10 @@ public class FilledLineRasterizer extends LineRasterizer {
         float x = x1;
         float y = y1;
 
-        for (int i = 0; i <= steps; i++) {
-            raster.setPixel(Math.round(x), Math.round(y), line.getColor());
+        for(int i = 0; i <= steps; i++){
+            float t = (float) i / steps;
+            Color color = interpolateColor(line.getStartColor(), line.getEndColor(), t);
+            raster.setPixel(Math.round(x), Math.round(y), color);
             x += xIncrement;
             y += yIncrement;
         }
@@ -75,10 +77,21 @@ public class FilledLineRasterizer extends LineRasterizer {
         float y = y1;
 
         for (int i = 0; i <= steps; i++) {
-            drawThickPixel(Math.round(x), Math.round(y), thickness, line.getColor());
+            float t = (float) i / steps;
+            Color currentColor = interpolateColor(line.getStartColor(), line.getEndColor(), t);
+    
+            drawThickPixel(Math.round(x), Math.round(y), thickness, currentColor);
             x += xIncrement;
             y += yIncrement;
         }
+    }
+
+    private Color interpolateColor(Color startColor, Color endColor, float t){
+        int red = (int) ((1 - t) * startColor.getRed() + t * endColor.getRed());
+        int green = (int) ((1 - t) * startColor.getGreen() + t * endColor.getGreen());
+        int blue = (int) ((1 - t) * startColor.getBlue() + t * endColor.getBlue());
+
+        return new Color(red, green, blue);
     }
 }
 

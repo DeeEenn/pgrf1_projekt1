@@ -23,7 +23,9 @@ public class Controller2D {
     private Point startPoint;
     private boolean isDrawing = false;
     private int lineThickness = 1;
-    
+    private boolean interpolationMode = false;
+    private boolean isVerticalHorizontalMode = false;
+
     private final List<Line> lines = new ArrayList<>();
 
     public Controller2D(Panel panel) {
@@ -51,15 +53,16 @@ public class Controller2D {
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (isDrawing && e.getButton() == MouseEvent.BUTTON1) {
-                    Point endPoint = new Point(e.getX(), e.getY(), Color.WHITE);
-                    Line finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
-                    System.out.println("Druhy bod usecky je na: (" + e.getX() + ", " + e.getY() + ")");
-                    System.out.println("Usecka byla nakreslena na pozici: " + startPoint.getX() + ", " + startPoint.getY() + " -> " + endPoint.getX() + ", " + endPoint.getY());
-                    lines.add(finalLine);
+                    Point endPoint = getAlignedPoint(startPoint, e.getX(), e.getY());
 
-                    
+                    Line finalLine;
+                    if(interpolationMode){
+                        finalLine = new Line(startPoint, endPoint, Color.BLUE, Color.RED, lineThickness);
+                    } else {
+                        finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
+                    }
+                    lines.add(finalLine);
                     redrawAll();
-                    
                     isDrawing = false;
                 }
             }
@@ -74,9 +77,16 @@ public class Controller2D {
             public void mouseDragged(MouseEvent e) {
                 if (isDrawing) {
                     redrawAll();
-                    
-                    Point currentPoint = new Point(e.getX(), e.getY(), Color.WHITE);
-                    Line previewLine = new Line(startPoint, currentPoint, Color.WHITE, lineThickness);
+
+
+                    Point currentPoint = getAlignedPoint(startPoint, e.getX(), e.getY());
+                    Line previewLine;
+
+                    if(interpolationMode){
+                        previewLine = new Line(startPoint, currentPoint, Color.BLUE, Color.RED, lineThickness);
+                    } else {
+                        previewLine = new Line(startPoint, currentPoint, Color.WHITE, lineThickness);
+                    }
                     lineRasterizer.rasterize(previewLine);
                     panel.repaint();
                 }
@@ -92,6 +102,12 @@ public class Controller2D {
                     clearAll();
                 } else if (e.getKeyCode() == KeyEvent.VK_T) {
                     lineThickness = (lineThickness == 1) ? 3 : 1;
+                } else if (e.getKeyCode() == KeyEvent.VK_I) {
+                    interpolationMode = !interpolationMode;
+                    System.out.println("Rezim interpolace barev je " + (interpolationMode ? "zapnuty." : "vypnuty."));
+                } else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+                    isVerticalHorizontalMode = !isVerticalHorizontalMode;
+                    System.out.println("Rezim zarovnani je " + (isVerticalHorizontalMode ? "zapnuty." : "vypnuty."));
                 }
             }
  
@@ -102,7 +118,22 @@ public class Controller2D {
         panel.setFocusable(true);
         panel.requestFocus();
     }
-    
+
+    public Point getAlignedPoint(Point startPoint, int mouseX, int mouseY) {
+        if (!isVerticalHorizontalMode) {
+            return new Point(mouseX, mouseY, Color.WHITE);
+        }
+
+        int dx = Math.abs(mouseX - startPoint.getX());
+        int dy = Math.abs(mouseY - startPoint.getY());
+
+        if(dx > dy){
+            return new Point(mouseX, startPoint.getY(), Color.WHITE); // Horizontální
+        } else {
+            return new Point(startPoint.getX(), mouseY, Color.WHITE); // Vertikální
+        }
+    }
+
     private void redrawAll() {
         raster.clear();
         
