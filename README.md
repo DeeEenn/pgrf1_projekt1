@@ -1,4 +1,4 @@
-# PGRF Projekt 1: Interaktivní 2D Grafika
+# PGRF Projekt 1
 
 > **Interaktivní kreslení úseček a polygonů s DDA rasterizačním algoritmem**
 
