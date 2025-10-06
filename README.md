@@ -27,21 +27,21 @@
 
 ```
 src/main/java/projekt1/
-├── Main.java                    # Vstupní bod aplikace
+├── Main.java                   
 ├── controller/
-│   └── Controller2D.java        # Hlavní logika a event handling
+│   └── Controller2D.java        
 ├── model/
-│   ├── Point.java              # 2D bod s barvou
-│   ├── Line.java               # Úsečka s interpolací barev
-│   └── Polygon.java            # N-úhelník s kolekci vrcholů
+│   ├── Point.java             
+│   ├── Line.java               
+│   └── Polygon.java           
 ├── rasterizer/
-│   ├── Raster.java             # Interface pro pixel operace
-│   ├── RasterBufferedImage.java # Implementace nad BufferedImage
-│   ├── LineRasterizer.java     # Abstraktní třída pro vykreslování
-│   └── FilledLineRasterizer.java # DDA algoritmus
+│   ├── Raster.java             
+│   ├── RasterBufferedImage.java 
+│   ├── LineRasterizer.java    
+│   └── FilledLineRasterizer.java 
 └── view/
-    ├── Frame.java              # Hlavní okno s menu
-    └── Panel.java              # Kreslicí plátno
+    ├── Frame.java             
+    └── Panel.java              
 ```
 
 ## Technické detaily
