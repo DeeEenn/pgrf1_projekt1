@@ -27,6 +27,9 @@ public class Controller2D {
     private boolean interpolationMode = false;
     private boolean isVerticalHorizontalMode = false;
     private boolean polygonMode = false;
+    private boolean isEditingPoint = false;
+    private Point editingPoint = null;
+    private int editingPointIndex = -1;
 
     private Polygon polygon = new Polygon();
     private final List<Line> lines = new ArrayList<>();
@@ -50,6 +53,16 @@ public class Controller2D {
                     System.out.println("Prvni bod usecky je na: (" + e.getX() + ", " + e.getY() + ")");
                     startPoint = new Point(e.getX(), e.getY(), Color.WHITE);
                     isDrawing = true;
+                } else if (e.getButton() == MouseEvent.BUTTON3 && polygonMode) {
+                    Point closest = polygon.findClosestPoint(e.getX(), e.getY());
+                    if (closest != null) {
+                        double distance = polygon.getDistance(e.getX(), e.getY(), closest);
+                        if (distance < 15) { // Pokud je kliknuti ve vzdalenosti maximalne 15 pixelu, tak se zvoli bod.
+                            isEditingPoint = true;
+                            editingPoint = closest;
+                            editingPointIndex = polygon.getPointIndex(closest);
+                        }
+                    }
                 }
             }
             
@@ -72,6 +85,10 @@ public class Controller2D {
 
                     redrawAll();
                     isDrawing = false;
+                } else if (isEditingPoint && e.getButton() == MouseEvent.BUTTON3) {
+                    isEditingPoint = false;
+                    editingPoint = null;
+                    editingPointIndex = -1;
                 }
             }
             
@@ -86,7 +103,6 @@ public class Controller2D {
                 if (isDrawing) {
                     redrawAll();
 
-
                     Point currentPoint = getAlignedPoint(startPoint, e.getX(), e.getY());
                     Line previewLine;
 
@@ -97,6 +113,10 @@ public class Controller2D {
                     }
                     lineRasterizer.rasterize(previewLine);
                     panel.repaint();
+                } else if (isEditingPoint && editingPoint != null) {
+                    Point newPosition = getAlignedPoint(editingPoint, e.getX(), e.getY());
+                    polygon.movePoint(editingPointIndex, newPosition.getX(), newPosition.getY());
+                    redrawAll();
                 }
             }
             

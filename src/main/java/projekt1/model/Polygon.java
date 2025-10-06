@@ -60,9 +60,23 @@ public class Polygon {
         return closest;
     }
 
+    public void movePoint(int index, int newX, int newY) {
+        if (index >= 0 && index < points.size()){
+            Point point = points.get(index);
+            point.setX(newX);
+            point.setY(newY);
+        }
+    }
+
+    public int getPointIndex(Point point) {
+        return points.indexOf(point);
+    }
+
     public double getDistance(int x, int y, Point point) {
         int dx = point.getX() - x;
         int dy = point.getY() - y;
         return Math.sqrt(dx * dx + dy * dy);
     }
+
+
 }

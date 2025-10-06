@@ -18,7 +18,7 @@
 - **Tlusté čáry**: Přepínání mezi tenkou (1px) a tlustou (3px) čárou (klávesa `T`)
 - **Shift alignment**: Prepnutim do Shift modu zarovnáte čáru horizontálně/vertikálně
 
-### ⌨️ **Klávesové zkratky**
+### **Klávesové zkratky**
 | Klávesa | Akce |
 |---------|------|
 | `C` | Vymazání celého plátna |

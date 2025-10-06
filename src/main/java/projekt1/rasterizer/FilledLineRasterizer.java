@@ -5,7 +5,6 @@ import java.awt.Color;
 import projekt1.model.Line;
 
 public class FilledLineRasterizer extends LineRasterizer {
-    // Implementace rasterizace cary DDA algoritmem
     public FilledLineRasterizer(Raster raster) {
         super(raster);
     }
@@ -20,9 +19,12 @@ public class FilledLineRasterizer extends LineRasterizer {
         }
     }
 
+    // DDA ALGORITMUS VYKRESLOVANI USECKY
     private void rasterizeNormal(Line line) {
+        // POCATECNI BOD
         int x1 = line.getStart().getX();
         int y1 = line.getStart().getY();
+        // KONCOVY BOD
         int x2 = line.getEnd().getX();
         int y2 = line.getEnd().getY();
 
