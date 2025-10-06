@@ -1,11 +1,7 @@
 # PGRF Projekt 1
 
 > **Interaktivní kreslení úseček a polygonů s DDA rasterizačním algoritmem**
-
-[![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://www.oracle.com/java/)
-[![Maven](https://img.shields.io/badge/Maven-3.6+-blue.svg)](https://maven.apache.org/)
-[![License](https://img.shields.io/badge/License-Educational-green.svg)](LICENSE)
-
+> 
 ## Hlavní funkce
 
 ### **Interaktivní kreslení**
