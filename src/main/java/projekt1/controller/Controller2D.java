@@ -63,7 +63,7 @@ public class Controller2D {
                     } else {
                         Line finalLine;
                         if(interpolationMode){
-                            finalLine = new Line(startPoint, endPoint, Color.RED, Color.BLUE, lineThickness);
+                            finalLine = new Line(startPoint, endPoint, Color.BLUE, Color.RED, lineThickness);
                         } else {
                             finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
                         }
@@ -136,10 +136,13 @@ public class Controller2D {
         int dy = Math.abs(mouseY - startPoint.getY());
 
         if(dx > dy){
-            return new Point(mouseX, startPoint.getY(), Color.WHITE); // Horizontální
-        } else {
-            return new Point(startPoint.getX(), mouseY, Color.WHITE); // Vertikální
+            return new Point(mouseX, startPoint.getY(), Color.WHITE); // Horizontalni
+        } else if (dx < dy) {
+            return new Point(startPoint.getX(), mouseY, Color.WHITE); // Vertikalni
+        } else if (dx == dy){
+            return new Point(mouseX, mouseY, Color.WHITE); // Diagonalni
         }
+        return null;
     }
 
     private void redrawAll() {
