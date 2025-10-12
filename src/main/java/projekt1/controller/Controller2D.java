@@ -12,14 +12,14 @@ import java.util.List;
 import projekt1.model.Line;
 import projekt1.model.Point;
 import projekt1.model.Polygon;
-import projekt1.rasterizer.FilledLineRasterizer;
+import projekt1.rasterizer.LineRasterizerBresenham;
 import projekt1.rasterizer.Raster;
 import projekt1.view.Panel;
 
 public class Controller2D {
     private final Panel panel;
     private final Raster raster;
-    private final FilledLineRasterizer lineRasterizer;
+    private final LineRasterizerBresenham lineRasterizer;
 
     private Point startPoint;
     private boolean isDrawing = false;
@@ -37,7 +37,7 @@ public class Controller2D {
     public Controller2D(Panel panel) {
         this.panel = panel;
         this.raster = panel.getRaster();
-        this.lineRasterizer = new FilledLineRasterizer(raster);
+            this.lineRasterizer = new LineRasterizerBresenham(raster);
 
         raster.clear();
         panel.repaint();
@@ -76,7 +76,7 @@ public class Controller2D {
                     } else {
                         Line finalLine;
                         if(interpolationMode){
-                            finalLine = new Line(startPoint, endPoint, Color.BLUE, Color.RED, lineThickness);
+                            finalLine = new Line(startPoint, endPoint, Color.MAGENTA, Color.LIGHT_GRAY, lineThickness);
                         } else {
                             finalLine = new Line(startPoint, endPoint, Color.WHITE, lineThickness);
                         }
@@ -107,7 +107,7 @@ public class Controller2D {
                     Line previewLine;
 
                     if(interpolationMode){
-                        previewLine = new Line(startPoint, currentPoint, Color.BLUE, Color.RED, lineThickness);
+                        previewLine = new Line(startPoint, currentPoint, Color.MAGENTA, Color.LIGHT_GRAY, lineThickness);
                     } else {
                         previewLine = new Line(startPoint, currentPoint, Color.WHITE, lineThickness);
                     }
