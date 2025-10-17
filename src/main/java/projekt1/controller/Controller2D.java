@@ -31,6 +31,9 @@ public class Controller2D {
     private Point editingPoint = null;
     private int editingPointIndex = -1;
 
+    private int lastMouseX = 0;
+    private int lastMouseY = 0;
+
     private Polygon polygon = new Polygon();
     private final List<Line> lines = new ArrayList<>();
 
@@ -119,8 +122,11 @@ public class Controller2D {
                     redrawAll();
                 }
             }
-            
-            @Override public void mouseMoved(MouseEvent e) {}
+
+            @Override public void mouseMoved(MouseEvent e) {
+                lastMouseX = e.getX();
+                lastMouseY = e.getY();
+            }
         });
         
         panel.addKeyListener(new KeyListener() {
@@ -136,6 +142,16 @@ public class Controller2D {
                     isVerticalHorizontalMode = !isVerticalHorizontalMode;
                 } else if (e.getKeyCode() == KeyEvent.VK_P) {
                     polygonMode = !polygonMode;
+                } else if (e.getKeyCode() == KeyEvent.VK_D && polygonMode) {
+                    Point closest = polygon.findClosestPoint(lastMouseX, lastMouseY);
+                    if (closest != null) {
+                        double distance = polygon.getDistance(lastMouseX, lastMouseY, closest);
+                        if (distance < 15) { 
+                            int index = polygon.getPointIndex(closest);
+                            polygon.removePoint(index);
+                            redrawAll();
+                        }
+                    }
                 }
             }
  

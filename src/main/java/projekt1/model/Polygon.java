@@ -78,5 +78,11 @@ public class Polygon {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    public void removePoint(int index) {
+        if (index >= 0 && index < points.size() && points.size() > 3) {
+            points.remove(index);
+        }
+    }
+
 
 }

@@ -20,6 +20,9 @@ public class LineRasterizerBresenham extends LineRasterizer {
     }
 
     // BRESENHAMUV ALGORITMUS VYKRESLOVANI USECKY
+    /** Tento algoritmus je mnohem lepsi, protoze nepocita s float, double a nepouziva tu desetinnou carku. 
+     * Je diky tomu mnohem rychlejsi a i vysledne usecky by meli byt mnohem presnejsi. 
+     */
     private void rasterizeNormal(Line line) {
         // POCATECNI BOD
         int x1 = line.getStart().getX();
@@ -65,6 +68,7 @@ public class LineRasterizerBresenham extends LineRasterizer {
             currentStep++;
         }
     }
+    // KONEC BRESENHAMU
     private void drawThickPixel(int centerX, int centerY, int thickness, Color color){
         int radius = thickness / 2;
 
